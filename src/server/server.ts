@@ -2,10 +2,7 @@ import express from "express";
 import cors from "cors";
 import mongoose, { ConnectOptions } from "mongoose";
 import { User } from "../schemas/userSchema";
-import {
-    dbUser,
-    dbPassword,
-} from "/home/gabcarneiro/Documents/Projetos/FinTrack-Backend/mongoCredential";
+import { dbUser, dbPassword } from "../../mongoCredential";
 
 const uri: string = `mongodb+srv://${dbUser}:${dbPassword}@fintrack.wwglm.mongodb.net/?retryWrites=true&w=majority&appName=FinTrack`;
 
