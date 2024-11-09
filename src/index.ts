@@ -1,3 +1,7 @@
-import { app } from './server/server';
+import { app } from "./server/server";
 
-app.listen(3000, () => console.log('Server running on http://localhost:3000'));
+//Setting the liste method for the server to run
+const port: number = 3000;
+app.listen(3000, () =>
+    console.log(`Server running on http://localhost:${port}`)
+);
