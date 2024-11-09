@@ -44,4 +44,37 @@ app.get("/", async (req: express.Request, res: express.Response) => {
     res.send("Hello, World!");
 });
 
+//Register Endpoint
+app.post("/register", async (req: express.Request, res: express.Response) => {
+    try {
+        const { name, email, password, theme } = req.body;
+        const userExists = await User.findOne({ email });
+        if (userExists) {
+            res.status(400).send({ error: "Email already in use" });
+        }
+        const user = new User({ name, email, password, theme });
+        await user.save();
+        res.status(201).send(user);
+    } catch (error) {
+        res.status(400).send(error);
+    }
+});
+
+//Login Endpoint
+app.post("/login", async (req: express.Request, res: express.Response) => {
+    try {
+        const { email, password } = req.body;
+        const user = await User.findOne({ email, password });
+        if (!user) {
+            res.status(401).send("Invalid Credentials!");
+        } else {
+            const userNoPassword = user.toJSON();
+            delete (userNoPassword as { password?: string }).password;
+            res.status(201).send(user);
+        }
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
 export { app };
