@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import mongoose, { ConnectOptions } from "mongoose";
-import { User, IUser, userSchema } from "../schemas/userSchema";
+import { User } from "../schemas/userSchema";
 import { dbUser, dbPassword } from "../../mongoCredential";
 
 //Setting up MongoDB connection
