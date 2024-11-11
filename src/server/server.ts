@@ -37,12 +37,7 @@ const corsOptions = {
     optionsSuccessStatus: 200,
 };
 
-//Testing
-app.get("/", async (req: express.Request, res: express.Response) => {
-    res.send("Hello, World!");
-});
-
-//Register Endpoint: Not Working
+//Register Endpoint: Working, tested
 app.post("/register", async (req: express.Request, res: express.Response) => {
     try {
         const { name, email, password, theme } = req.body;
@@ -60,7 +55,7 @@ app.post("/register", async (req: express.Request, res: express.Response) => {
     }
 });
 
-//Login Endpoint: Can't test cause register ain't working
+//Login Endpoint: Working, tested
 app.post("/login", async (req: express.Request, res: express.Response) => {
     try {
         const { email, password } = req.body;
