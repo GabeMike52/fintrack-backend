@@ -73,7 +73,10 @@ app.post("/login", async (req: express.Request, res: express.Response) => {
     }
 });
 
+//TODO: password changer endpoint
+
 //Income creation: Working, tested
+//TODO: find a way to get the body from the User schema that is creating the income.
 app.post("/incomes", async (req: express.Request, res: express.Response) => {
     try {
         const { title, value, isRecurrent } = req.body;
@@ -94,6 +97,7 @@ app.post("/incomes", async (req: express.Request, res: express.Response) => {
 });
 
 //Income list: Not working yet
+//TODO: make it work, I guess
 app.get("/incomes/:userId", async (req: express.Request, res: express.Response) => {
     try {
         const income = await Income.find({ owner: req.params.userId });
@@ -107,6 +111,7 @@ app.get("/incomes/:userId", async (req: express.Request, res: express.Response) 
 });
 
 //Income delete: don't know how to test this yet
+//TODO: wait, perhaps it will only be tested when there is a frontend
 app.delete("/incomes/:incomeId", async (req: express.Request, res: express.Response) => {
     try {
         const income = await Income.findOne({ id: req.params.incomeId });
