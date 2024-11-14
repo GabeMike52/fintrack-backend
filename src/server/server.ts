@@ -5,6 +5,7 @@ import { User } from "../schemas/userSchema";
 import { dbUser, dbPassword, jwtSecret } from "../../credentials";
 import { Income } from "../schemas/incomeSchema";
 import { Expense } from "../schemas/expenseSchema";
+import { AuthRequest, authMiddleware } from "../middleawares/token";
 
 //Setting up MongoDB connection
 const uri: string = `mongodb+srv://${dbUser}:${dbPassword}@fintrack.wwglm.mongodb.net/?retryWrites=true&w=majority&appName=FinTrack`;
