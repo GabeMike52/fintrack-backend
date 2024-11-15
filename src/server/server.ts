@@ -10,7 +10,6 @@ import { loginUser } from "../controllers/loginController";
 import { createIncome } from "../controllers/incomeCreateController";
 import { listIncome } from "../controllers/incomeListController";
 import { deleteIncome } from "../controllers/incomeDeleteController";
-//TODO: apply the middleware into the routes so it can work. ;-;
 
 //Setting up MongoDB connection
 const uri: string = `mongodb+srv://${dbUser}:${dbPassword}@fintrack.wwglm.mongodb.net/?retryWrites=true&w=majority&appName=FinTrack`;
