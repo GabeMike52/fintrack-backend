@@ -6,7 +6,7 @@ import { authMiddleware } from "../middleawares/token";
 import { registerUser } from "../controllers/registerController";
 import { loginUser } from "../controllers/loginController";
 import { createIncome } from "../controllers/incomeCreateController";
-import { listIncome } from "../controllers/incomeListController";
+import { listIncomes } from "../controllers/incomeListController";
 import { deleteIncome } from "../controllers/incomeDeleteController";
 
 //Setting up MongoDB connection
@@ -52,7 +52,7 @@ app.post("/login", loginUser);
 app.post("/incomes", authMiddleware, createIncome);
 
 //Income List Route
-app.get("/incomes/list", authMiddleware, listIncome);
+app.get("/incomes/list", authMiddleware, listIncomes);
 
 //Income Delete Route
 app.delete("/incomes/:incomeId", authMiddleware, deleteIncome); //This endpoint possibly has a weak point, but I'll treat it later

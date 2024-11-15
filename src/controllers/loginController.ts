@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import { User } from "../schemas/userSchema";
 import { AuthRequest, generateToken } from "../middleawares/token";
 

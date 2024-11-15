@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import { Income } from "../schemas/incomeSchema";
 import { AuthRequest } from "../middleawares/token";
 
@@ -9,15 +9,13 @@ async function createIncome(req: AuthRequest, res: Response) {
         const incomeExists = await Income.findOne({ title });
         if (incomeExists) {
             res.status(400).send({
-                error: "An income with this title was already created!",
+                error: "An income with this title already exists!",
             });
             return;
         }
-        // const userId = req.userId;
         const income = new Income({ title, value, isRecurrent, userId });
-        console.log(income);
         await income.save();
-        res.status(201).send(income);
+        res.status(201).send({ message: "Income successfully created!", income });
     } catch (error) {
         console.error("Error creating income:", error);
         res.status(400).send({ error: "Income creation failed!" });
