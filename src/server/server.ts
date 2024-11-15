@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import mongoose, { ConnectOptions } from "mongoose";
-import { User } from "../schemas/userSchema";
 import { dbUser, dbPassword, jwtSecret } from "../../credentials";
 import { Income } from "../schemas/incomeSchema";
 import { Expense } from "../schemas/expenseSchema";
