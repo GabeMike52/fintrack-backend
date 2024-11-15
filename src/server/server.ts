@@ -88,7 +88,6 @@ app.post("/login", async (req: express.Request, res: express.Response) => {
 //TODO: password changer endpoint
 
 //Income creation: Working, tested
-//TODO: find a way to get the body from the User schema that is creating the income.
 app.post("/incomes", authMiddleware, async (req: AuthRequest, res: express.Response) => {
     try {
         const { title, value, isRecurrent } = req.body;
