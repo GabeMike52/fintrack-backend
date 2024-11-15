@@ -8,6 +8,10 @@ import { loginUser } from "../controllers/loginController";
 import { createIncome } from "../controllers/incomeCreateController";
 import { listIncomes } from "../controllers/incomeListController";
 import { deleteIncome } from "../controllers/incomeDeleteController";
+import { createExpense } from "../controllers/expenseCreateController";
+import { listExpenses } from "../controllers/expenseListController";
+import { deleteExpense } from "../controllers/expenseDeleteController";
+import { create } from "domain";
 
 //Setting up MongoDB connection
 const uri: string = `mongodb+srv://${dbUser}:${dbPassword}@fintrack.wwglm.mongodb.net/?retryWrites=true&w=majority&appName=FinTrack`;
@@ -56,5 +60,14 @@ app.get("/incomes/list", authMiddleware, listIncomes);
 
 //Income Delete Route
 app.delete("/incomes/:incomeId", authMiddleware, deleteIncome); //This endpoint possibly has a weak point, but I'll treat it later
+
+//Expense Create Route
+app.post("/expenses", authMiddleware, createExpense);
+
+//Expense List Route
+app.get("/expenses/list", authMiddleware, listExpenses);
+
+//Expense Delete Route
+app.delete("/expenses/:expenseId", authMiddleware, deleteExpense);
 
 export { app };
