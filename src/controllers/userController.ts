@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { Schema, model } from "mongoose";
 import { User } from "../schemas/userSchema";
-import { AuthRequest, authMiddleware, generateToken } from "../middleawares/token";
+import { AuthRequest, generateToken } from "../middleawares/token";
 
 async function registerUser(req: Request, res: Response) {
     try {
