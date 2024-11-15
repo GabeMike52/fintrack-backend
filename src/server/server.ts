@@ -3,15 +3,15 @@ import cors from "cors";
 import mongoose, { ConnectOptions } from "mongoose";
 import { dbUser, dbPassword } from "../../credentials";
 import { authMiddleware } from "../middleawares/token";
-import { registerUser } from "../controllers/registerController";
-import { loginUser } from "../controllers/loginController";
+import { registerUser } from "../controllers/userRegisterController";
+import { loginUser } from "../controllers/userLoginController";
+import { changeUserPassword } from "../controllers/userChangePasswordController";
 import { createIncome } from "../controllers/incomeCreateController";
 import { listIncomes } from "../controllers/incomeListController";
 import { deleteIncome } from "../controllers/incomeDeleteController";
 import { createExpense } from "../controllers/expenseCreateController";
 import { listExpenses } from "../controllers/expenseListController";
 import { deleteExpense } from "../controllers/expenseDeleteController";
-import { changeUserPassword } from "../controllers/changePasswordController";
 
 //Setting up MongoDB connection
 const uri: string = `mongodb+srv://${dbUser}:${dbPassword}@fintrack.wwglm.mongodb.net/?retryWrites=true&w=majority&appName=FinTrack`;
