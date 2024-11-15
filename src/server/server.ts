@@ -1,10 +1,8 @@
 import express from "express";
 import cors from "cors";
 import mongoose, { ConnectOptions } from "mongoose";
-import { dbUser, dbPassword, jwtSecret } from "../../credentials";
-import { Income } from "../schemas/incomeSchema";
-import { Expense } from "../schemas/expenseSchema";
-import { AuthRequest, authMiddleware, generateToken } from "../middleawares/token";
+import { dbUser, dbPassword } from "../../credentials";
+import { authMiddleware } from "../middleawares/token";
 import { registerUser } from "../controllers/registerController";
 import { loginUser } from "../controllers/loginController";
 import { createIncome } from "../controllers/incomeCreateController";
