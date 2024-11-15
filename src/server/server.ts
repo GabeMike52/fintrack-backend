@@ -6,6 +6,7 @@ import { dbUser, dbPassword, jwtSecret } from "../../credentials";
 import { Income } from "../schemas/incomeSchema";
 import { Expense } from "../schemas/expenseSchema";
 import { AuthRequest, authMiddleware, generateToken } from "../middleawares/token";
+import { registerUser, loginUser } from "../controllers/userController";
 //TODO: apply the middleware into the routes so it can work. ;-;
 
 //Setting up MongoDB connection
@@ -39,53 +40,13 @@ const corsOptions = {
     optionsSuccessStatus: 200,
 };
 
-//Register Endpoint: Working, tested
-app.post("/register", authMiddleware, async (req: express.Request, res: express.Response) => {
-    try {
-        const { name, email, password, theme } = req.body;
-        const userExists = await User.findOne({ email });
-        if (userExists) {
-            res.status(400).send({ error: "Email already in use" });
-            return;
-        }
-        const user = new User({ name, email, password, theme });
-        await user.save();
-        res.status(201).send(user);
-    } catch (error) {
-        console.error("Error while registrating:", error);
-        res.status(400).send({ error: "Registration failed!" });
-    }
-});
+//Register Route
+app.post("/register", registerUser);
 
-//Login Endpoint: Working, tested
-app.post("/login", async (req: express.Request, res: express.Response) => {
-    try {
-        const { email, password } = req.body;
-        const user = await User.findOne({ email, password });
-        if (!user) {
-            res.status(401).send("Invalid Credentials!");
-        } else {
-            const token = generateToken(user._id.toString());
-            const userNoPassword = user.toJSON();
-            delete (userNoPassword as { password?: string }).password;
-            res.status(200).send({
-                message: "Login was successfull!",
-                user: {
-                    id: user._id,
-                    name: user.name,
-                    email: user.email,
-                    password: user.password,
-                },
-                token,
-            });
-        }
-    } catch (error) {
-        console.error("Error in login!", error);
-        res.status(500).send({ error: "Login failed" });
-    }
-});
+//Login Route
+app.post("/login", loginUser);
 
-//TODO: password changer endpoint
+//TODO: password changer route
 
 //Income creation: Working, tested
 app.post("/incomes", authMiddleware, async (req: AuthRequest, res: express.Response) => {
