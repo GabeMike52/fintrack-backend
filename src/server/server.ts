@@ -5,7 +5,11 @@ import { dbUser, dbPassword, jwtSecret } from "../../credentials";
 import { Income } from "../schemas/incomeSchema";
 import { Expense } from "../schemas/expenseSchema";
 import { AuthRequest, authMiddleware, generateToken } from "../middleawares/token";
-import { registerUser, loginUser } from "../controllers/userController";
+import { registerUser } from "../controllers/registerController";
+import { loginUser } from "../controllers/loginController";
+import { createIncome } from "../controllers/incomeCreateController";
+import { listIncome } from "../controllers/incomeListController";
+import { deleteIncome } from "../controllers/incomeDeleteController";
 //TODO: apply the middleware into the routes so it can work. ;-;
 
 //Setting up MongoDB connection
@@ -47,56 +51,13 @@ app.post("/login", loginUser);
 
 //TODO: password changer route
 
-//Income creation: Working, tested
-app.post("/incomes", authMiddleware, async (req: AuthRequest, res: express.Response) => {
-    try {
-        const { title, value, isRecurrent } = req.body;
-        const userId = req.userId;
-        const incomeExists = await Income.findOne({ title });
-        if (incomeExists) {
-            res.status(400).send({
-                error: "An income with this title was already created!",
-            });
-            return;
-        }
-        // const userId = req.userId;
-        const income = new Income({ title, value, isRecurrent, userId });
-        console.log(income);
-        await income.save();
-        res.status(201).send(income);
-    } catch (error) {
-        console.error("Error creating income!", error);
-        res.status(400).send({ error: "Income creation failed!" });
-    }
-});
+//Income Create Route
+app.post("/incomes", authMiddleware, createIncome);
 
-//Income list: Working, tested
-app.get("/incomes/list", authMiddleware, async (req: AuthRequest, res: express.Response) => {
-    try {
-        const income = await Income.find({ userId: req.userId });
-        res.status(200).send(income);
-    } catch (error) {
-        console.error("Error while getting incomes!", error);
-        res.status(404).send({
-            error: "Couldn't find any incomes with this userId!",
-        });
-    }
-});
+//Income List Route
+app.get("/incomes/list", authMiddleware, listIncome);
 
-//Income delete: Working, tested
-app.delete(
-    "/incomes/:incomeId",
-    authMiddleware,
-    async (req: AuthRequest, res: express.Response) => {
-        try {
-            const income = await Income.findOne({ _id: req.params.incomeId });
-            await income?.deleteOne();
-            res.status(204).send({ ok: "ok" });
-        } catch (error) {
-            console.error("Error while deleting income!", error);
-            res.status(500).send({ error: "Failed to delete!" });
-        }
-    }
-);
+//Income Delete Route
+app.delete("/incomes/:incomeId", authMiddleware, deleteIncome); //This endpoint possibly has a weak point, but I'll treat it later
 
 export { app };
