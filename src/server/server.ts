@@ -110,11 +110,10 @@ app.post("/incomes", authMiddleware, async (req: AuthRequest, res: express.Respo
     }
 });
 
-//Income list: Not working yet
-//TODO: make it work, I guess
-app.get("/incomes/:userId", async (req: express.Request, res: express.Response) => {
+//Income list: Working, tested
+app.get("/incomes/list", authMiddleware, async (req: AuthRequest, res: express.Response) => {
     try {
-        const income = await Income.find({ owner: req.params.userId });
+        const income = await Income.find({ userId: req.userId });
         res.status(200).send(income);
     } catch (error) {
         console.error("Error while getting incomes!", error);
@@ -124,17 +123,20 @@ app.get("/incomes/:userId", async (req: express.Request, res: express.Response) 
     }
 });
 
-//Income delete: don't know how to test this yet
-//TODO: wait, perhaps it will only be tested when there is a frontend
-app.delete("/incomes/:incomeId", async (req: express.Request, res: express.Response) => {
-    try {
-        const income = await Income.findOne({ id: req.params.incomeId });
-        income?.deleteOne();
-        res.status(204).send({ ok: "ok" });
-    } catch (error) {
-        console.error("Error while deleting income!", error);
-        res.status(500).send({ error: "Failed to delete!" });
+//Income delete: Working, tested
+app.delete(
+    "/incomes/:incomeId",
+    authMiddleware,
+    async (req: AuthRequest, res: express.Response) => {
+        try {
+            const income = await Income.findOne({ _id: req.params.incomeId });
+            await income?.deleteOne();
+            res.status(204).send({ ok: "ok" });
+        } catch (error) {
+            console.error("Error while deleting income!", error);
+            res.status(500).send({ error: "Failed to delete!" });
+        }
     }
-});
+);
 
 export { app };
