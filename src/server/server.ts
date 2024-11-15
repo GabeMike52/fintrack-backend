@@ -5,7 +5,8 @@ import { User } from "../schemas/userSchema";
 import { dbUser, dbPassword, jwtSecret } from "../../credentials";
 import { Income } from "../schemas/incomeSchema";
 import { Expense } from "../schemas/expenseSchema";
-import { AuthRequest, authMiddleware } from "../middleawares/token";
+import { AuthRequest, authMiddleware, generateToken } from "../middleawares/token";
+//TODO: apply the middleware into the routes so it can work. ;-;
 
 //Setting up MongoDB connection
 const uri: string = `mongodb+srv://${dbUser}:${dbPassword}@fintrack.wwglm.mongodb.net/?retryWrites=true&w=majority&appName=FinTrack`;
@@ -39,7 +40,7 @@ const corsOptions = {
 };
 
 //Register Endpoint: Working, tested
-app.post("/register", async (req: express.Request, res: express.Response) => {
+app.post("/register", authMiddleware, async (req: express.Request, res: express.Response) => {
     try {
         const { name, email, password, theme } = req.body;
         const userExists = await User.findOne({ email });
@@ -64,9 +65,19 @@ app.post("/login", async (req: express.Request, res: express.Response) => {
         if (!user) {
             res.status(401).send("Invalid Credentials!");
         } else {
+            const token = generateToken(user._id.toString());
             const userNoPassword = user.toJSON();
             delete (userNoPassword as { password?: string }).password;
-            res.status(200).send(user);
+            res.status(200).send({
+                message: "Login was successfull!",
+                user: {
+                    id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    password: user.password,
+                },
+                token,
+            });
         }
     } catch (error) {
         console.error("Error in login!", error);
@@ -78,9 +89,10 @@ app.post("/login", async (req: express.Request, res: express.Response) => {
 
 //Income creation: Working, tested
 //TODO: find a way to get the body from the User schema that is creating the income.
-app.post("/incomes", async (req: express.Request, res: express.Response) => {
+app.post("/incomes", authMiddleware, async (req: AuthRequest, res: express.Response) => {
     try {
         const { title, value, isRecurrent } = req.body;
+        const userId = req.userId;
         const incomeExists = await Income.findOne({ title });
         if (incomeExists) {
             res.status(400).send({
@@ -88,7 +100,9 @@ app.post("/incomes", async (req: express.Request, res: express.Response) => {
             });
             return;
         }
-        const income = new Income({ title, value, isRecurrent });
+        // const userId = req.userId;
+        const income = new Income({ title, value, isRecurrent, userId });
+        console.log(income);
         await income.save();
         res.status(201).send(income);
     } catch (error) {
