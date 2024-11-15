@@ -11,7 +11,7 @@ import { deleteIncome } from "../controllers/incomeDeleteController";
 import { createExpense } from "../controllers/expenseCreateController";
 import { listExpenses } from "../controllers/expenseListController";
 import { deleteExpense } from "../controllers/expenseDeleteController";
-import { create } from "domain";
+import { changeUserPassword } from "../controllers/changePasswordController";
 
 //Setting up MongoDB connection
 const uri: string = `mongodb+srv://${dbUser}:${dbPassword}@fintrack.wwglm.mongodb.net/?retryWrites=true&w=majority&appName=FinTrack`;
@@ -50,7 +50,8 @@ app.post("/register", registerUser);
 //Login Route
 app.post("/login", loginUser);
 
-//TODO: password changer route
+//Change User Password Route
+app.patch("/users/:userId", authMiddleware, changeUserPassword);
 
 //Income Create Route
 app.post("/incomes", authMiddleware, createIncome);
