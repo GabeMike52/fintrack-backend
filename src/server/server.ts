@@ -60,7 +60,7 @@ app.post("/incomes", authMiddleware, createIncome);
 app.get("/incomes/list", authMiddleware, listIncomes);
 
 //Income Delete Route
-app.delete("/incomes/:incomeId", authMiddleware, deleteIncome); //This endpoint possibly has a weak point, but I'll treat it later
+app.delete("/incomes/:incomeId", authMiddleware, deleteIncome); //This endpoint possibly has a weak spot, but I'll treat it later
 
 //Expense Create Route
 app.post("/expenses", authMiddleware, createExpense);
