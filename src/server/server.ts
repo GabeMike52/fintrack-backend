@@ -9,9 +9,11 @@ import { changeUserPassword } from "../controllers/userChangePasswordController"
 import { createIncome } from "../controllers/incomeCreateController";
 import { listIncomes } from "../controllers/incomeListController";
 import { deleteIncome } from "../controllers/incomeDeleteController";
+import { incomeUpdate } from "../controllers/incomeUpdateController";
 import { createExpense } from "../controllers/expenseCreateController";
 import { listExpenses } from "../controllers/expenseListController";
 import { deleteExpense } from "../controllers/expenseDeleteController";
+import { expenseUpdate } from "../controllers/expenseUpdateController";
 
 //Setting up MongoDB connection
 const uri: string = `mongodb+srv://${dbUser}:${dbPassword}@fintrack.wwglm.mongodb.net/?retryWrites=true&w=majority&appName=FinTrack`;
@@ -62,6 +64,9 @@ app.get("/incomes/list", authMiddleware, listIncomes);
 //Income Delete Route
 app.delete("/incomes/:incomeId", authMiddleware, deleteIncome); //This endpoint possibly has a weak spot, but I'll treat it later
 
+//Income Update Route
+app.patch("/incomes/:incomeId", authMiddleware, incomeUpdate);
+
 //Expense Create Route
 app.post("/expenses", authMiddleware, createExpense);
 
@@ -70,5 +75,8 @@ app.get("/expenses/list", authMiddleware, listExpenses);
 
 //Expense Delete Route
 app.delete("/expenses/:expenseId", authMiddleware, deleteExpense);
+
+//Expense Update Route
+app.patch("/expenses/:expenseId", authMiddleware, expenseUpdate);
 
 export { app };

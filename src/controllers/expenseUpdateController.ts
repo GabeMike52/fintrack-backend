@@ -18,3 +18,5 @@ async function expenseUpdate(req: AuthRequest, res: Response) {
         res.status(304).send({ error: "Expense update failed!" });
     }
 }
+
+export { expenseUpdate };
