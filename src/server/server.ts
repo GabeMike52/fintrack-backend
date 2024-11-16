@@ -14,6 +14,7 @@ import { createExpense } from "../controllers/expenseCreateController";
 import { listExpenses } from "../controllers/expenseListController";
 import { deleteExpense } from "../controllers/expenseDeleteController";
 import { expenseUpdate } from "../controllers/expenseUpdateController";
+import { showBalance } from "../controllers/balanceController";
 
 //Setting up MongoDB connection
 const uri: string = `mongodb+srv://${dbUser}:${dbPassword}@fintrack.wwglm.mongodb.net/?retryWrites=true&w=majority&appName=FinTrack`;
@@ -78,5 +79,7 @@ app.delete("/expenses/:expenseId", authMiddleware, deleteExpense);
 
 //Expense Update Route
 app.patch("/expenses/:expenseId", authMiddleware, expenseUpdate);
+
+app.get("/balance", authMiddleware, showBalance);
 
 export { app };
