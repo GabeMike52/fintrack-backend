@@ -16,6 +16,6 @@ The backend repository for a Finances Manager called FinTrack, written in TypeSc
 -   [x] Expenses creation, list, delete and update
 -   [x] Password update
 -   [x] Balance calculum
--   [] Email validation
--   [] Filter by date
--   [] Investment simulation
+-   [ ] Email validation
+-   [ ] Filter by date
+-   [ ] Investment simulation
