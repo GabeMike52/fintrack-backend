@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { Income } from "../schemas/incomeSchema";
-import { AuthRequest } from "../middleawares/token";
+import { AuthRequest } from "../middleware/token";
 
 async function listIncomes(req: AuthRequest, res: Response) {
     try {

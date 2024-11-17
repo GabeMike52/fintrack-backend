@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { Expense } from "../schemas/expenseSchema";
-import { AuthRequest } from "../middleawares/token";
+import { AuthRequest } from "../middleware/token";
 
 async function listExpenses(req: AuthRequest, res: Response) {
     try {

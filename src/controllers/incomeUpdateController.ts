@@ -1,8 +1,8 @@
 import { Response } from "express";
 import { Income } from "../schemas/incomeSchema";
-import { AuthRequest } from "../middleawares/token";
+import { AuthRequest } from "../middleware/token";
 
-async function incomeUpdate(req: AuthRequest, res: Response) {
+async function updateIncome(req: AuthRequest, res: Response) {
     try {
         const income = await Income.findOne({ _id: req.params.incomeId });
         const incomeTitle = income?.title;
@@ -19,4 +19,4 @@ async function incomeUpdate(req: AuthRequest, res: Response) {
     }
 }
 
-export { incomeUpdate };
+export { updateIncome };

@@ -1,8 +1,8 @@
 import { Response } from "express";
 import { Expense } from "../schemas/expenseSchema";
-import { AuthRequest } from "../middleawares/token";
+import { AuthRequest } from "../middleware/token";
 
-async function expenseUpdate(req: AuthRequest, res: Response) {
+async function updateExpense(req: AuthRequest, res: Response) {
     try {
         const expense = await Expense.findOne({ _id: req.params.expenseId });
         const expenseTitle = expense?.title;
@@ -19,4 +19,4 @@ async function expenseUpdate(req: AuthRequest, res: Response) {
     }
 }
 
-export { expenseUpdate };
+export { updateExpense };

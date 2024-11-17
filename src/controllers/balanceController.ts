@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { Income } from "../schemas/incomeSchema";
 import { Expense } from "../schemas/expenseSchema";
-import { AuthRequest } from "../middleawares/token";
+import { AuthRequest } from "../middleware/token";
 
 async function showBalance(req: AuthRequest, res: Response) {
     try {

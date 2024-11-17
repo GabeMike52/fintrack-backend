@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { User } from "../schemas/userSchema";
-import { AuthRequest } from "../middleawares/token";
+import { AuthRequest } from "../middleware/token";
 
 async function changeUserPassword(req: AuthRequest, res: Response) {
     try {

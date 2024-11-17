@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { User } from "../schemas/userSchema";
-import { AuthRequest, generateToken } from "../middleawares/token";
+import { AuthRequest, generateToken } from "../middleware/token";
 
 async function loginUser(req: AuthRequest, res: Response) {
     try {
