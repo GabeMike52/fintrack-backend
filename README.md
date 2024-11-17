@@ -8,10 +8,10 @@ Built with **TypeScript**, FinTrack allows you to seamlessly track your **income
 
 # Tools
 
--   • Node.js
--   • Express
--   • Mongoose
--   • JWT
+-   Node.js
+-   Express
+-   Mongoose
+-   JWT
 
 # What is done?
 
