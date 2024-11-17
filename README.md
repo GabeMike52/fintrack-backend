@@ -1,6 +1,10 @@
 # About
 
-The backend repository for a Finances Manager called FinTrack, written in TypeScript, using MongoDB as it's database.
+## FinTrack: Your Personal Finance Manager
+
+**FinTrack** is a modern finance management tool designed for those who want to take control of their money without the hassle of spreadsheets.
+
+Built with **TypeScript**, FinTrack allows you to seamlessly track your **incomes** and **expenses**, providing clear insights into your financial situation. With FinTrack, you'll always know how much you've spent and how much you have left, helping you make smarter financial decisions.
 
 # Tools
 
