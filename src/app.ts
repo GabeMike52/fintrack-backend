@@ -1,9 +1,12 @@
 import express from "express";
 import cors from "cors";
 import routes from "./routes";
+import connecToMongo from "./config/db";
 
 //Setting up express
 const app = express();
+
+connecToMongo().catch(console.error);
 
 app.use(express.json());
 app.use(cors());

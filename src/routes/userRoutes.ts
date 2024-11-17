@@ -7,7 +7,7 @@ import { authMiddleware } from "../middleware/token";
 const router = Router();
 
 router.post("/register", registerUser);
-router.post("/login", authMiddleware, loginUser);
+router.post("/login", loginUser);
 router.patch("/:userId", authMiddleware, changeUserPassword);
 
 export default router;

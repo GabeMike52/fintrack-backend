@@ -10,7 +10,7 @@ const clientOptions: ConnectOptions = {
     },
 };
 
-async function run(): Promise<void> {
+async function connecToMongo(): Promise<void> {
     try {
         await mongoose.connect(uri, clientOptions);
         await mongoose.connection.db?.admin().command({ ping: 1 });
@@ -20,4 +20,4 @@ async function run(): Promise<void> {
     }
 }
 
-run().catch(console.error);
+export default connecToMongo;
