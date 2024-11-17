@@ -1,7 +1,7 @@
 import mongoose, { ConnectOptions } from "mongoose";
-import { dbUser, dbPassword } from "../../credentials";
+import ENV from "./env";
 
-const uri: string = `mongodb+srv://${dbUser}:${dbPassword}@fintrack.wwglm.mongodb.net/?retryWrites=true&w=majority&appName=FinTrack`;
+const uri = ENV.MONGO_URI;
 const clientOptions: ConnectOptions = {
     serverApi: {
         version: "1",
@@ -17,6 +17,7 @@ async function connecToMongo(): Promise<void> {
         console.log("Pinged your deployment. You succsessfully connected to MongoDB!");
     } catch (error) {
         console.log("Error connecting to MongoDB:", error);
+        process.exit(1);
     }
 }
 

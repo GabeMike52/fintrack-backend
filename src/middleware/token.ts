@@ -1,10 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-
 import jwt, { JwtPayload } from "jsonwebtoken";
+import ENV from "../config/env";
 
-import { jwtSecret } from "../../credentials";
-
-import { Income } from "../schemas/incomeSchema";
+const jwtSecret = ENV.JWT_SECRET;
 
 interface AuthRequest extends Request {
     userId?: string;
