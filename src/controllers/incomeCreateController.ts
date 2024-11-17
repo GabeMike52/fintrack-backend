@@ -4,7 +4,7 @@ import { AuthRequest } from "../middleware/token";
 
 async function createIncome(req: AuthRequest, res: Response) {
     try {
-        const { title, value, isRecurrent } = req.body;
+        const { title, description, value, isMonthly, receiptDate } = req.body;
         const userId = req.userId;
         const incomeExists = await Income.findOne({ title });
         if (incomeExists) {
@@ -13,7 +13,14 @@ async function createIncome(req: AuthRequest, res: Response) {
             });
             return;
         }
-        const income = new Income({ title, value, isRecurrent, userId });
+        const income = new Income({
+            title,
+            description,
+            value,
+            isMonthly,
+            receiptDate: new Date(receiptDate),
+            userId,
+        });
         await income.save();
         res.status(201).send({ message: "Income successfully created!", income });
     } catch (error) {
