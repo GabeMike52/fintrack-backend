@@ -21,5 +21,6 @@ Built with **TypeScript**, FinTrack allows you to seamlessly track your **income
 -   [x] Password update
 -   [x] Balance calculum
 -   [ ] Filter by date
+-   [ ] Implement token refresh
 -   [ ] Email validation
 -   [ ] Investment simulation
