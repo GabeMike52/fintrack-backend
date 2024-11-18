@@ -6,7 +6,6 @@ import { AuthRequest } from "../middleware/token";
 async function showBalanceByDate(req: AuthRequest, res: Response) {
     try {
         const { month, year } = req.query;
-        console.log("Query parameters: ", { month, year });
         if (!month || !year) {
             res.status(400).send({ message: "Month and year are required!" });
             return;
