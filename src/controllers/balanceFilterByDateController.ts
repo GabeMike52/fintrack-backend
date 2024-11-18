@@ -6,35 +6,39 @@ import { AuthRequest } from "../middleware/token";
 async function showBalanceByDate(req: AuthRequest, res: Response) {
     try {
         const { month, year } = req.query;
-        if (!month || !year || isNaN(Number(month)) || isNaN(Number(year))) {
-            res.status(400).send({ message: "Month and Year are required!" });
+        console.log("Query parameters: ", { month, year });
+        if (!month || !year) {
+            res.status(400).send({ message: "Month and year are required!" });
             return;
         }
-        const monthNumber = parseInt(month as string, 10);
-        const yearNumber = parseInt(year as string, 10);
+
+        const numericMonth = parseInt(month as string, 10);
+        const numericYear = parseInt(year as string, 10);
+        if (isNaN(numericMonth) || isNaN(numericYear) || numericMonth < 1 || numericMonth > 12) {
+            res.status(400).send({ message: "Invalid month or year" });
+            return;
+        }
+
+        const startDate = new Date(Date.UTC(numericYear, numericMonth - 1, 1));
+        const endDate = new Date(Date.UTC(numericYear, numericMonth - 1, 1));
+        endDate.setMonth(endDate.getMonth() + 1);
 
         const incomes = await Income.find({
-            $expr: {
-                $and: [
-                    { $eq: [{ $month: "$date" }, monthNumber] },
-                    { $eq: [{ $year: "$date" }, yearNumber] },
-                ],
-            },
+            userId: req.userId,
+            receiptDate: { $gte: startDate, $lt: endDate },
         });
 
         const expenses = await Expense.find({
-            $expr: {
-                $and: [
-                    { $eq: [{ $month: "$date" }, monthNumber] },
-                    { $eq: [{ $year: "$date" }, yearNumber] },
-                ],
-            },
+            userId: req.userId,
+            paymentDate: { $gte: startDate, $lt: endDate },
         });
 
         const totalIncomes = incomes.reduce((sum, incomes) => sum + incomes.value, 0);
-        const totalExpenses = incomes.reduce((sum, expenses) => sum + expenses.value, 0);
+        const totalExpenses = expenses.reduce((sum, expenses) => sum + expenses.value, 0);
         const balance = totalIncomes - totalExpenses;
         res.status(200).send({
+            month,
+            year,
             totalIncomes,
             totalExpenses,
             balance,

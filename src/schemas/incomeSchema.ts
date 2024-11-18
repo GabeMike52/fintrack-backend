@@ -1,5 +1,4 @@
 import { Schema, model } from "mongoose";
-import { isDate } from "util/types";
 
 interface IIncome {
     title: string;
@@ -9,11 +8,6 @@ interface IIncome {
     receiptDate: Date;
     userId: object;
 }
-
-const now = new Date();
-const month = (now.getMonth() + 1).toString().padStart(2, "0");
-const year = now.getFullYear();
-const date = `${month}/${year}`;
 
 const incomeSchema = new Schema<IIncome>({
     title: { type: String, required: true, unique: true },

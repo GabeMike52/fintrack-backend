@@ -18,7 +18,7 @@ async function createIncome(req: AuthRequest, res: Response) {
             description,
             value,
             isMonthly,
-            receiptDate: new Date(receiptDate),
+            receiptDate,
             userId,
         });
         await income.save();

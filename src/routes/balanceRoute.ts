@@ -6,6 +6,6 @@ import { authMiddleware } from "../middleware/token";
 const router = Router();
 
 router.get("/", authMiddleware, showBalance);
-router.get("/", authMiddleware, showBalanceByDate);
+router.get("/filter", authMiddleware, showBalanceByDate);
 
 export default router;

@@ -16,7 +16,7 @@ async function createExpense(req: AuthRequest, res: Response) {
             description,
             value,
             isMonthly,
-            paymentDate: new Date(paymentDate),
+            paymentDate,
             userId,
         });
         await expense.save();
