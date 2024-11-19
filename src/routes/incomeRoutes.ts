@@ -1,15 +1,12 @@
 import { Router } from "express";
-import { createIncome } from "../controllers/incomeCreateController";
-import { listIncomes } from "../controllers/incomeListController";
-import { deleteIncome } from "../controllers/incomeDeleteController";
-import { updateIncome } from "../controllers/incomeUpdateController";
+import income from "../controllers/incomeController";
 import { authMiddleware } from "../middleware/token";
 
 const router = Router();
 
-router.post("/", authMiddleware, createIncome);
-router.get("/", authMiddleware, listIncomes);
-router.delete("/:incomeId", authMiddleware, deleteIncome);
-router.patch("/:incomeId", authMiddleware, updateIncome);
+router.post("/", authMiddleware, income.createIncome);
+router.get("/", authMiddleware, income.listIncomes);
+router.delete("/:incomeId", authMiddleware, income.deleteIncome);
+router.patch("/:incomeId", authMiddleware, income.updateIncome);
 
 export default router;

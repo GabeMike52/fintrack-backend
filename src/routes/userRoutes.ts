@@ -1,13 +1,11 @@
 import { Router } from "express";
-import { registerUser } from "../controllers/userRegisterController";
-import { loginUser } from "../controllers/userLoginController";
-import { changeUserPassword } from "../controllers/userChangePasswordController";
+import user from "../controllers/userController";
 import { authMiddleware } from "../middleware/token";
 
 const router = Router();
 
-router.post("/register", registerUser);
-router.post("/login", loginUser);
-router.patch("/:userId", authMiddleware, changeUserPassword);
+router.post("/register", user.register);
+router.post("/login", user.login);
+router.patch("/:userId", authMiddleware, user.changePassword);
 
 export default router;

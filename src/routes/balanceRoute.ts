@@ -1,6 +1,5 @@
 import { Router } from "express";
-import { showBalance } from "../controllers/balanceController";
-import { showBalanceByDate } from "../controllers/balanceFilterByDateController";
+import { showBalance, showBalanceByDate } from "../controllers/balanceController";
 import { authMiddleware } from "../middleware/token";
 
 const router = Router();

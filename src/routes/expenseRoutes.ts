@@ -1,15 +1,12 @@
 import { Router } from "express";
-import { createExpense } from "../controllers/expenseCreateController";
-import { listExpenses } from "../controllers/expenseListController";
-import { deleteExpense } from "../controllers/expenseDeleteController";
-import { updateExpense } from "../controllers/expenseUpdateController";
+import expense from "../controllers/expenseController";
 import { authMiddleware } from "../middleware/token";
 
 const router = Router();
 
-router.post("/", authMiddleware, createExpense);
-router.get("/", authMiddleware, listExpenses);
-router.delete("/:expenseId", authMiddleware, deleteExpense);
-router.patch("/:expenseId", authMiddleware, updateExpense);
+router.post("/", authMiddleware, expense.createExpense);
+router.get("/", authMiddleware, expense.listExpenses);
+router.delete("/:expenseId", authMiddleware, expense.deleteExpense);
+router.patch("/:expenseId", authMiddleware, expense.updateExpense);
 
 export default router;
