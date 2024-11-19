@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { showBalance, showBalanceByDate } from "../controllers/balanceController";
+import balance from "../controllers/balanceController";
 import { authMiddleware } from "../middleware/token";
 
 const router = Router();
 
-router.get("/", authMiddleware, showBalance);
-router.get("/filter", authMiddleware, showBalanceByDate);
+router.get("/", authMiddleware, balance.show);
+router.get("/filter", authMiddleware, balance.showByDate);
 
 export default router;

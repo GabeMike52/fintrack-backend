@@ -3,7 +3,9 @@ import { Income } from "../schemas/incomeSchema";
 import { Expense } from "../schemas/expenseSchema";
 import { AuthRequest } from "../middleware/token";
 
-async function showBalance(req: AuthRequest, res: Response) {
+const balance = { show, showByDate };
+
+async function show(req: AuthRequest, res: Response) {
     try {
         const incomes = await Income.find({ userId: req.userId });
         const expenses = await Expense.find({ userId: req.userId });
@@ -35,7 +37,7 @@ async function showBalance(req: AuthRequest, res: Response) {
     }
 }
 
-async function showBalanceByDate(req: AuthRequest, res: Response) {
+async function showByDate(req: AuthRequest, res: Response) {
     try {
         const { month, year } = req.query;
         if (!month || !year) {
@@ -80,4 +82,4 @@ async function showBalanceByDate(req: AuthRequest, res: Response) {
     }
 }
 
-export { showBalance, showBalanceByDate };
+export default balance;
