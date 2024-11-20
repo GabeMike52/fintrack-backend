@@ -1,7 +1,6 @@
 import { Response } from "express";
 import { Expense } from "../schemas/expenseSchema";
 import { AuthRequest } from "../middleware/token";
-import { getExpenseData } from "../service/getExpenseData";
 
 const expense = { createExpense, deleteExpense, listExpenses, updateExpense };
 
