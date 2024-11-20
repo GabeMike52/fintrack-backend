@@ -7,9 +7,15 @@ const expense = { createExpense, deleteExpense, listExpenses, updateExpense };
 
 async function createExpense(req: AuthRequest, res: Response) {
     try {
-        const data = getExpenseData;
+        const { title, description, value, isMonthly, paymentDate } = req.body;
+        const userId = req.userId;
         const expense = new Expense({
-            data,
+            title,
+            description,
+            value,
+            isMonthly,
+            paymentDate,
+            userId,
         });
         await expense.save();
         res.status(201).send({ message: "Expense was successfully created!", expense });
