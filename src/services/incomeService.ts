@@ -46,7 +46,8 @@ async function incomeUpdate(
         isMonthly: isMonthly,
         receiptDate: receiptDate,
     });
-    return income;
+    const updatedIncome = await Income.findOne({ _id: incomeId });
+    return updatedIncome;
 }
 
 async function incomeDelete(incomeId: string) {
