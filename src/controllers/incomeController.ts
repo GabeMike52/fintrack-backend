@@ -1,6 +1,6 @@
 import { Response } from "express";
-import { Income } from "../schemas/incomeSchema";
 import { AuthRequest } from "../middleware/token";
+import incomeService from "../services/incomeService";
 
 const income = { createIncome, listIncomes, updateIncome, deleteIncome };
 
@@ -8,22 +8,14 @@ async function createIncome(req: AuthRequest, res: Response) {
     try {
         const { title, description, value, isMonthly, receiptDate } = req.body;
         const userId = req.userId;
-        const incomeExists = await Income.findOne({ title });
-        if (incomeExists) {
-            res.status(400).send({
-                error: "An income with this title already exists!",
-            });
-            return;
-        }
-        const income = new Income({
+        const income = await incomeService.incomeCreate(
             title,
             description,
             value,
-            isMonthly,
-            receiptDate,
             userId,
-        });
-        await income.save();
+            isMonthly,
+            receiptDate
+        );
         res.status(201).send({ message: "Income successfully created!", income });
     } catch (error) {
         console.error("Error creating income:", error);
@@ -31,21 +23,11 @@ async function createIncome(req: AuthRequest, res: Response) {
     }
 }
 
-async function deleteIncome(req: AuthRequest, res: Response) {
-    try {
-        const income = await Income.findOne({ _id: req.params.incomeId });
-        await income?.deleteOne();
-        res.status(204).send({ ok: "ok" });
-    } catch (error) {
-        console.error("Error while deleting income:", error);
-        res.status(500).send({ error: "Failed to delete!" });
-    }
-}
-
 async function listIncomes(req: AuthRequest, res: Response) {
     try {
-        const income = await Income.find({ userId: req.userId });
-        res.status(200).send(income);
+        const userId = req.userId;
+        const incomes = await incomeService.incomesGet(userId);
+        res.status(200).send(incomes);
     } catch (error) {
         console.error("Error while getting incomes:", error);
         res.status(404).send({
@@ -56,18 +38,31 @@ async function listIncomes(req: AuthRequest, res: Response) {
 
 async function updateIncome(req: AuthRequest, res: Response) {
     try {
-        const income = await Income.findOne({ _id: req.params.incomeId });
-        const incomeTitle = income?.title;
-        const incomeValue = income?.value;
-        if (!incomeTitle || !incomeValue) {
-            res.status(400).send({ message: "You need to fill the income fields!" });
-            return;
-        }
-        await income?.updateOne(req.body);
-        res.status(200).send({ message: "Income was successfully updated!" });
+        const incomeId = req.params.incomeId;
+        const { title, description, value, isMonthly, receiptDate } = req.body;
+        const income = await incomeService.incomeUpdate(
+            incomeId,
+            title,
+            description,
+            value,
+            isMonthly,
+            receiptDate
+        );
+        res.status(200).send({ message: "Income was successfully updated!", income });
     } catch (error) {
         console.error("Error while updating income:", error);
         res.status(304).send({ error: "Income update failed!" });
+    }
+}
+
+async function deleteIncome(req: AuthRequest, res: Response) {
+    try {
+        const incomeId = req.params.incomeId;
+        await incomeService.incomeDelete(incomeId);
+        res.status(204).send({ ok: "ok" });
+    } catch (error) {
+        console.error("Error while deleting income:", error);
+        res.status(500).send({ error: "Failed to delete!" });
     }
 }
 
