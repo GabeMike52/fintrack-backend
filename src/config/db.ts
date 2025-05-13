@@ -1,5 +1,6 @@
 import mongoose, { ConnectOptions } from "mongoose";
 import ENV from "./env";
+import logger from "./logger";
 
 const uri = ENV.MONGO_URI;
 const clientOptions: ConnectOptions = {
@@ -14,9 +15,9 @@ async function connecToMongo(): Promise<void> {
     try {
         await mongoose.connect(uri, clientOptions);
         await mongoose.connection.db?.admin().command({ ping: 1 });
-        console.log("Pinged your deployment. You succsessfully connected to MongoDB!");
+        logger.info("Pinged your deployment. You succsessfully connected to MongoDB!");
     } catch (error) {
-        console.log("Error connecting to MongoDB:", error);
+        logger.error("Error connecting to MongoDB:", error);
         process.exit(1);
     }
 }

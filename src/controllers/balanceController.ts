@@ -3,6 +3,7 @@ import { Expense } from "../schemas/expenseSchema";
 import { Income } from "../schemas/incomeSchema";
 import { AuthRequest } from "../middleware/token";
 import balanceService from "../services/balanceService";
+import logger from "../config/logger";
 
 const balance = { show, showByDate };
 
@@ -17,7 +18,7 @@ async function show(req: AuthRequest, res: Response) {
             balance,
         });
     } catch (error) {
-        console.error("Error while getting balance:", error);
+        logger.error("Error while getting balance:", error);
         res.status(500).send({ error: "Failed to calculate balance!" });
     }
 }
@@ -40,7 +41,7 @@ async function showByDate(req: AuthRequest, res: Response) {
             balance,
         });
     } catch (error) {
-        console.error("Error while filtering balance: ", error);
+        logger.error("Error while filtering balance: ", error);
         res.status(500).send({ error: "Failed to retrieve data" });
     }
 }

@@ -1,6 +1,7 @@
 import { Response } from "express";
 import { AuthRequest } from "../middleware/token";
 import expenseService from "../services/expenseService";
+import logger from "../config/logger";
 
 const expense = { createExpense, deleteExpense, listExpenses, updateExpense };
 
@@ -18,7 +19,7 @@ async function createExpense(req: AuthRequest, res: Response) {
         );
         res.status(201).send({ message: "Expense was successfully created!", expense });
     } catch (error) {
-        console.error("Error creating expense:", error);
+        logger.error("Error creating expense:", error);
         res.status(400).send({ error: "Expense creation failed" });
     }
 }
@@ -29,7 +30,7 @@ async function listExpenses(req: AuthRequest, res: Response) {
         const expenses = await expenseService.expensesGet(userId);
         res.status(200).send(expenses);
     } catch (error) {
-        console.error("Error while getting expenses:", error);
+        logger.error("Error while getting expenses:", error);
         res.status(404).send({ error: "Couldn't find any expenses with this userId!" });
     }
 }
@@ -48,7 +49,7 @@ async function updateExpense(req: AuthRequest, res: Response) {
         );
         res.status(200).send({ message: "Expense was successfully updated!", expense });
     } catch (error) {
-        console.error("Error while updating expense:", error);
+        logger.error("Error while updating expense:", error);
         res.status(304).send({ error: "Expense update failed!" });
     }
 }
@@ -59,7 +60,7 @@ async function deleteExpense(req: AuthRequest, res: Response) {
         await expenseService.expenseDelete(expenseId);
         res.status(204).send({ ok: "ok" });
     } catch (error) {
-        console.error("Error while deleting expense:", error);
+        logger.error("Error while deleting expense:", error);
         res.status(500).send({ error: "Failed to delete!" });
     }
 }

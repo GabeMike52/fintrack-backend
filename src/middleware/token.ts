@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import ENV from "../config/env";
+import logger from "../config/logger";
 
 const jwtSecret = ENV.JWT_SECRET;
 
@@ -18,7 +19,7 @@ function generateToken(userId: string) {
 
 function authMiddleware(req: AuthRequest, res: Response, next: NextFunction) {
     const authHeader = req.headers.authorization;
-    console.log("Authorization Header: ", authHeader); //Debugging
+    logger.debug("Authorization Header: ", authHeader); //Debugging
 
     if (!authHeader) {
         res.status(401).send({ message: "Authorization header is missing!" });
@@ -26,7 +27,7 @@ function authMiddleware(req: AuthRequest, res: Response, next: NextFunction) {
     }
 
     const token = authHeader.split(" ")[1];
-    console.log("Extracted Token: ", token); //Debugging
+    logger.debug("Extracted Token: ", token); //Debugging
 
     if (!token) {
         res.status(401).send({ message: "Token missing!" });
@@ -36,11 +37,11 @@ function authMiddleware(req: AuthRequest, res: Response, next: NextFunction) {
 
     try {
         const decoded = jwt.verify(token, jwtSecret) as TokenPayload;
-        console.log("Decoded Token Payload: ", decoded);
+        logger.info("Decoded Token Payload: ", decoded);
         req.userId = decoded.userId;
         next();
     } catch (error) {
-        console.error("Token verification failed: ", error);
+        logger.error("Token verification failed: ", error);
         res.status(401).send({ message: "Invalid or expired token!" });
     }
 }

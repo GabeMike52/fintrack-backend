@@ -1,6 +1,7 @@
 import { Response } from "express";
 import { AuthRequest } from "../middleware/token";
 import incomeService from "../services/incomeService";
+import logger from "../config/logger";
 
 const income = { createIncome, listIncomes, updateIncome, deleteIncome };
 
@@ -18,7 +19,7 @@ async function createIncome(req: AuthRequest, res: Response) {
         );
         res.status(201).send({ message: "Income successfully created!", income });
     } catch (error) {
-        console.error("Error creating income:", error);
+        logger.error("Error creating income:", error);
         res.status(400).send({ error: "Income creation failed!" });
     }
 }
@@ -29,7 +30,7 @@ async function listIncomes(req: AuthRequest, res: Response) {
         const incomes = await incomeService.incomesGet(userId);
         res.status(200).send(incomes);
     } catch (error) {
-        console.error("Error while getting incomes:", error);
+        logger.error("Error while getting incomes:", error);
         res.status(404).send({
             error: "Couldn't find any incomes with this userId!",
         });
@@ -50,7 +51,7 @@ async function updateIncome(req: AuthRequest, res: Response) {
         );
         res.status(200).send({ message: "Income was successfully updated!", income });
     } catch (error) {
-        console.error("Error while updating income:", error);
+        logger.error("Error while updating income:", error);
         res.status(304).send({ error: "Income update failed!" });
     }
 }
@@ -61,7 +62,7 @@ async function deleteIncome(req: AuthRequest, res: Response) {
         await incomeService.incomeDelete(incomeId);
         res.status(204).send({ ok: "ok" });
     } catch (error) {
-        console.error("Error while deleting income:", error);
+        logger.error("Error while deleting income:", error);
         res.status(500).send({ error: "Failed to delete!" });
     }
 }
